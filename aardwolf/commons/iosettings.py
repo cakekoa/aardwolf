@@ -7,6 +7,7 @@ from aardwolf.extensions.RDPEDYC.channel import RDPEDYCChannel
 
 from aardwolf.extensions.RDPEDYC.vchannels.echo import VchannelECHO
 #from aardwolf.extensions.RDPEDYC.vchannels.test import VchannelTEST
+from aardwolf.extensions.RDPECLIP.fileprovider import InMemoryFileProvider
 
 class RDPIOSettings:
 	def __init__(self):
@@ -59,7 +60,10 @@ class RDPIOSettings:
 		# set it to true to have a file created, or to a string with a file path
 		# 
 		self.clipboard_store_data = None
-		self.clipboard = Clipboard()
+
+		file_provider = InMemoryFileProvider()
+		file_provider.set_files({"test.txt": b"Hello World!"})
+		self.clipboard = Clipboard(file_provider=file_provider)
 
 		# determines how often the client polls for desktop changes
 		self.vnc_fps = 10

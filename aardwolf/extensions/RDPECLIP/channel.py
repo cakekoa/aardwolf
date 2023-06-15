@@ -161,6 +161,8 @@ class RDPECLIPChannel(Channel):
 						msg = RDP_CLIPBOARD_READY()
 						await self.send_user_data(msg)
 
+						await self.clipboard.set_current_clipboard_files(["test.txt"])
+
 					elif CB_FLAG.CB_RESPONSE_FAIL in hdr.msgFlags:
 						raise Exception('Server refused clipboard initialization!')
 					else:

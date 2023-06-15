@@ -48,3 +48,21 @@ class FilesystemFileProvider(FileProvider):
 	def get_file_size(self, name:str) -> int:
 		stat = lstat(name)
 		return stat.st_size
+
+
+class InMemoryFileProvider(FileProvider):
+	"""
+	Provides data from files stored in memory to the clipboard
+	"""
+
+	def __init__(self):
+		self._files:Dict[str, bytes] = {}
+
+	def set_files(self, files:Dict[str, bytes]):
+		self._files = files
+
+	def get_file_data(self, name:str, start:int, count:int) -> bytes:
+		return self._files[name][start:start+count]
+
+	def get_file_size(self, name:str) -> int:
+		return len(self._files[name])
